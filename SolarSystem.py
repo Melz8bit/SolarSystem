@@ -8,10 +8,15 @@ pygame.display.init()
 
 WIDTH = 800
 HEIGHT = 600
-CENTER_SCREEN = ((WIDTH / 2) - 75, HEIGHT / 2)
+OFFCENTER = 75
+CENTER_SCREEN = ((WIDTH / 2) - OFFCENTER, HEIGHT / 2)
 
 SCREEN = pygame.display.set_mode(size = (WIDTH, HEIGHT))
 CLOCK = pygame.time.Clock()
+
+ORBIT_LINE_THICKNESS = 1
+ORBIT_SPEED_ADJUSTMENT = 50
+SUN_RADIUS = 20
 
 # Colors
 YELLOW = (255, 255, 0)
@@ -36,7 +41,7 @@ class solar_system_object:
         self.is_vertical = is_vertical
     
     def draw_object(self, orbit_angle=0):
-        position_x = (WIDTH / 2) + (int(math.cos(orbit_angle) * self.distance_from_sun))
+        position_x = (WIDTH / 2) + (int(math.cos(orbit_angle) * self.distance_from_sun)) - OFFCENTER
         position_y = (HEIGHT / 2) + (int(math.sin(orbit_angle) * self.distance_from_sun))
 
         pygame.draw.circle(SCREEN, self.color, (position_x, position_y), self.radius)
@@ -48,22 +53,25 @@ class solar_system_object:
                 pygame.draw.line(SCREEN, self.color, (position_x, position_y - 15), (position_x, position_y + 15))
 
 
+def draw_orbit_circle(planet_distance_from_sun):
+    pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, planet_distance_from_sun, width=ORBIT_LINE_THICKNESS)
+
+def draw_planets_in_motion(planet_name, angle):
+    planet_name.draw_object(angle * (planet_name.orbital_speed / ORBIT_SPEED_ADJUSTMENT))
+
 # Variables
 angle = 0
-orbit_line_thickness = 1
-orbital_speed_adjustment = 50
-sun_radius = 20
 running = True
 
 # Create planet objects
-mercury = solar_system_object(4, 48, sun_radius + 20, GRAY, False)
-venus = solar_system_object(5, 35, sun_radius + 40, ORANGE, False)
-earth = solar_system_object(6, 30, sun_radius + 60, GREEN, False)
-mars = solar_system_object(4, 24, sun_radius + 80, RED, False)
-jupiter = solar_system_object(10, 13, sun_radius + 110, BROWN, False)
-saturn = solar_system_object(8, 10, sun_radius + 145, TAN, True)
-uranus = solar_system_object(7, 7, sun_radius + 180, LIGHT_BLUE, True, True)
-neptune = solar_system_object(7, 5, sun_radius + 205, BLUE, False)
+mercury = solar_system_object(4, 48, SUN_RADIUS + 18, GRAY, False)
+venus = solar_system_object(5, 35, SUN_RADIUS + 34, ORANGE, False)
+earth = solar_system_object(6, 30, SUN_RADIUS + 46, GREEN, False)
+mars = solar_system_object(4, 24, SUN_RADIUS + 70, RED, False)
+jupiter = solar_system_object(10, 13, SUN_RADIUS + 100, BROWN, False)
+saturn = solar_system_object(8, 10, SUN_RADIUS + 150, TAN, True)
+uranus = solar_system_object(7, 7, SUN_RADIUS + 200, LIGHT_BLUE, True, True)
+neptune = solar_system_object(7, 5, SUN_RADIUS + 250, BLUE, False)
 
 while running:    
     msElapsed = CLOCK.tick(60)
@@ -76,28 +84,28 @@ while running:
     SCREEN.fill(BLACK)
     
     # Draw the Sun
-    pygame.draw.circle(SCREEN, YELLOW, CENTER_SCREEN, sun_radius)
+    pygame.draw.circle(SCREEN, YELLOW, CENTER_SCREEN, SUN_RADIUS)
 
     # Draw the orbit lines
-    pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, mercury.distance_from_sun, width=orbit_line_thickness)
-    pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, venus.distance_from_sun, width=orbit_line_thickness)
-    pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, earth.distance_from_sun, width=orbit_line_thickness)
-    pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, mars.distance_from_sun, width=orbit_line_thickness)
-    pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, jupiter.distance_from_sun, width=orbit_line_thickness)
-    pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, saturn.distance_from_sun, width=orbit_line_thickness)
-    pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, uranus.distance_from_sun, width=orbit_line_thickness)
-    pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, neptune.distance_from_sun, width=orbit_line_thickness)
+    draw_orbit_circle(mercury.distance_from_sun)
+    draw_orbit_circle(venus.distance_from_sun)
+    draw_orbit_circle(earth.distance_from_sun)
+    draw_orbit_circle(mars.distance_from_sun)
+    draw_orbit_circle(jupiter.distance_from_sun)
+    draw_orbit_circle(saturn.distance_from_sun)
+    draw_orbit_circle(uranus.distance_from_sun)
+    draw_orbit_circle(neptune.distance_from_sun)
 
     # Draw the planets in motion
-    mercury.draw_object(angle * (mercury.orbital_speed / orbital_speed_adjustment))
-    venus.draw_object(angle * (venus.orbital_speed / orbital_speed_adjustment))
-    earth.draw_object(angle * (earth.orbital_speed / orbital_speed_adjustment))
-    mars.draw_object(angle * (mars.orbital_speed / orbital_speed_adjustment))
-    jupiter.draw_object(angle * (jupiter.orbital_speed / orbital_speed_adjustment))
-    saturn.draw_object(angle * (saturn.orbital_speed / orbital_speed_adjustment))
-    uranus.draw_object(angle * (uranus.orbital_speed / orbital_speed_adjustment))
-    neptune.draw_object(angle * (neptune.orbital_speed / orbital_speed_adjustment))
-
+    draw_planets_in_motion(mercury, angle)
+    draw_planets_in_motion(venus, angle)
+    draw_planets_in_motion(earth, angle)
+    draw_planets_in_motion(mars, angle)
+    draw_planets_in_motion(jupiter, angle)
+    draw_planets_in_motion(saturn, angle)
+    draw_planets_in_motion(uranus, angle)
+    draw_planets_in_motion(neptune, angle)
+    
     angle += 0.05
 
     pygame.display.flip()
