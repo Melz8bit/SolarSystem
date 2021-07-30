@@ -37,7 +37,6 @@ GREEN = (0, 100, 0)
 BLACK = (0, 0, 0)
 WHITE = (211, 211, 211)
 
-
 class solar_system_object:
     def __init__(self, name, radius, orbital_speed, distance_from_sun, color, has_rings, is_vertical=False):
         self.name = name
