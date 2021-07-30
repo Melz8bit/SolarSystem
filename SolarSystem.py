@@ -71,7 +71,6 @@ class solar_system_object:
     def draw_orbit_circle(self):
         pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, self.distance_from_sun, width=ORBIT_LINE_THICKNESS)
 
-
 # Variables
 angle = 0
 running = True
