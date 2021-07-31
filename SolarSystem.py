@@ -1,13 +1,12 @@
 import pygame, math, sys
 
-from pygame.version import PygameVersion
+from pygame.version import PygameVersion, ver
 
 # Fixes the pygame.init and pygame.quit errors
 # pylint: disable=no-member
 
 pygame.init()
-pygame.display.init()
-pygame.font.init()
+pygame.display.set_caption('Solar System For Lucas')
 
 WIDTH = 800
 HEIGHT = 600
@@ -65,8 +64,11 @@ class solar_system_object:
                 pygame.draw.line(SCREEN, self.color, (position_x, position_y - 15), (position_x, position_y + 15))
 
     def display_planet_name(self):
-            planet_diplay_name = FONT.render(self.name, False, self.color)
-            SCREEN.blit(planet_diplay_name, (0,0))
+        horizontal_pos = WIDTH - 100
+        vertical_pos = 0
+
+        planet_diplay_name = FONT.render(self.name, False, self.color)
+        SCREEN.blit(planet_diplay_name, (horizontal_pos,vertical_pos))
 
     def draw_orbit_circle(self):
         pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, self.distance_from_sun, width=ORBIT_LINE_THICKNESS)
@@ -77,14 +79,16 @@ running = True
 text_location = 0
 
 # Create planet objects
-mercury = solar_system_object('Mercury', 4, 48, SUN_RADIUS + 18, GRAY, False)
-venus = solar_system_object('Venus', 5, 35, SUN_RADIUS + 34, ORANGE, False)
-earth = solar_system_object('Earth', 6, 30, SUN_RADIUS + 46, GREEN, False)
-mars = solar_system_object('Mars', 4, 24, SUN_RADIUS + 70, RED, False)
-jupiter = solar_system_object('Jupiter', 10, 13, SUN_RADIUS + 100, BROWN, False)
-saturn = solar_system_object('Saturn', 8, 10, SUN_RADIUS + 150, TAN, True)
-uranus = solar_system_object('Uranus', 7, 7, SUN_RADIUS + 200, LIGHT_BLUE, True, True)
-neptune = solar_system_object('Neptune', 7, 5, SUN_RADIUS + 250, BLUE, False)
+solar_system = [
+    solar_system_object('Mercury', 4, 48, SUN_RADIUS + 18, GRAY, False),
+    solar_system_object('Venus', 5, 35, SUN_RADIUS + 34, ORANGE, False),
+    solar_system_object('Earth', 6, 30, SUN_RADIUS + 46, GREEN, False),
+    solar_system_object('Mars', 4, 24, SUN_RADIUS + 70, RED, False),
+    solar_system_object('Jupiter', 10, 13, SUN_RADIUS + 100, BROWN, False),
+    solar_system_object('Saturn', 8, 10, SUN_RADIUS + 150, TAN, True),
+    solar_system_object('Uranus', 7, 7, SUN_RADIUS + 200, LIGHT_BLUE, True, True),
+    solar_system_object('Neptune', 7, 5, SUN_RADIUS + 250, BLUE, False) 
+]
 
 while running:    
     msElapsed = CLOCK.tick(60)
@@ -95,40 +99,15 @@ while running:
             sys.exit()
 
     SCREEN.fill(BLACK)
-    
+
     # Draw the Sun
     pygame.draw.circle(SCREEN, YELLOW, CENTER_SCREEN, SUN_RADIUS)
 
-    # Draw the planet names
-    mercury.draw_planet(angle)
-    venus.draw_planet(angle)
-    earth.draw_planet(angle)
-    mars.draw_planet(angle)
-    jupiter.draw_planet(angle)
-    saturn.draw_planet(angle)
-    uranus.draw_planet(angle)
-    neptune.draw_planet(angle)
+    # Draw the planets
+    for planet in solar_system:
+        planet.draw_planet(angle)
+        planet.display_planet_name()
 
-    """ # Draw the orbit lines
-    draw_orbit_circle(mercury.distance_from_sun)
-    draw_orbit_circle(venus.distance_from_sun)
-    draw_orbit_circle(earth.distance_from_sun)
-    draw_orbit_circle(mars.distance_from_sun)
-    draw_orbit_circle(jupiter.distance_from_sun)
-    draw_orbit_circle(saturn.distance_from_sun)
-    draw_orbit_circle(uranus.distance_from_sun)
-    draw_orbit_circle(neptune.distance_from_sun)
-
-    # Draw the planets in motion
-    draw_planets_in_motion(mercury, angle)
-    draw_planets_in_motion(venus, angle)
-    draw_planets_in_motion(earth, angle)
-    draw_planets_in_motion(mars, angle)
-    draw_planets_in_motion(jupiter, angle)
-    draw_planets_in_motion(saturn, angle)
-    draw_planets_in_motion(uranus, angle)
-    draw_planets_in_motion(neptune, angle)
-     """
     angle += 0.05
 
     pygame.display.flip()
