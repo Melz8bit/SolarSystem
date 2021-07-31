@@ -8,6 +8,7 @@ from pygame.version import PygameVersion, ver
 pygame.init()
 pygame.display.set_caption('Solar System For Lucas')
 
+
 WIDTH = 800
 HEIGHT = 600
 OFFCENTER = 75
