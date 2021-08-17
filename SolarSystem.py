@@ -1,4 +1,4 @@
-import pygame, math, sys
+import pygame, math, sys, os
 
 from pygame.version import PygameVersion, ver
 
@@ -8,8 +8,8 @@ from pygame.version import PygameVersion, ver
 pygame.init()
 pygame.display.set_caption('Solar System For Lucas')
 
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 1280
+HEIGHT = 1024
 OFFCENTER = 75
 CENTER_SCREEN = ((WIDTH / 2) - OFFCENTER, HEIGHT / 2)
 
@@ -19,10 +19,14 @@ FONT_SIZE = 24
 FONT_PADDING = 30
 FONT_NAME = 'Arial'
 FONT = pygame.font.SysFont(FONT_NAME, FONT_SIZE)
+IMAGE_PATH = 'D:\\Melz\\Programming\\Solar System\\Images\\'
 
 ORBIT_LINE_THICKNESS = 1
 ORBIT_SPEED_ADJUSTMENT = 50
-SUN_RADIUS = 20
+SUN_RADIUS = 50
+
+BACKGROUND_IMG = pygame.image.load(IMAGE_PATH + '\\background\\stars.jpg').convert_alpha()
+SUN_IMG = pygame.image.load(IMAGE_PATH + 'sun.png').convert_alpha()
 
 # Colors
 YELLOW = (255, 255, 0)
@@ -64,13 +68,6 @@ class solar_system_object:
             else:
                 pygame.draw.line(SCREEN, self.color, (position_x, position_y - 15), (position_x, position_y + 15))
 
-    """ def display_planet_name(self):
-        horizontal_pos = WIDTH - 100
-        vertical_pos = 0
-
-        planet_diplay_name = FONT.render(self.name, False, self.color)
-        SCREEN.blit(planet_diplay_name, (horizontal_pos,vertical_pos)) """
-
     def draw_orbit_circle(self):
         pygame.draw.circle(SCREEN, WHITE, CENTER_SCREEN, self.distance_from_sun, width=ORBIT_LINE_THICKNESS)
 
@@ -80,7 +77,6 @@ class solar_system_object_name:
 
     def __init__(self, object_name, color):
         solar_system_object_name.obj_count += 1
-        print(solar_system_object_name.obj_count)
         self.name = object_name
         self.color = color
         self.vertical_pos = FONT_PADDING * solar_system_object_name.obj_count
@@ -91,46 +87,56 @@ class solar_system_object_name:
         SCREEN.blit(planet_diplay_name, (self.horizontal_pos,self.vertical_pos))
 
 
-# Variables
-angle = 0
-running = True
-text_location = 0
+def main():
+    # Variables
+    angle = 0
+    running = True
+    text_location = 0
 
-# Create planet objects
-solar_system = [
-    {'object_name': solar_system_object_name('Mercury', GRAY), 'object_properties': solar_system_object('Mercury', 4, 48, SUN_RADIUS + 18, GRAY, False)},
-    {'object_name': solar_system_object_name('Venus', ORANGE), 'object_properties': solar_system_object('Venus', 5, 35, SUN_RADIUS + 34, ORANGE, False)},
-    {'object_name': solar_system_object_name('Earth', GREEN), 'object_properties': solar_system_object('Earth', 6, 30, SUN_RADIUS + 46, GREEN, False)},
-    {'object_name': solar_system_object_name('Mars', RED), 'object_properties': solar_system_object('Mars', 4, 24, SUN_RADIUS + 70, RED, False)},
-    {'object_name': solar_system_object_name('Jupiter', BROWN), 'object_properties': solar_system_object('Jupiter', 10, 13, SUN_RADIUS + 100, BROWN, False)},
-    {'object_name': solar_system_object_name('Saturn', TAN), 'object_properties': solar_system_object('Saturn', 8, 10, SUN_RADIUS + 150, TAN, True)},
-    {'object_name': solar_system_object_name('Uranus', LIGHT_BLUE), 'object_properties': solar_system_object('Uranus', 7, 7, SUN_RADIUS + 200, LIGHT_BLUE, True, True)},
-    {'object_name': solar_system_object_name('Neptune', BLUE), 'object_properties': solar_system_object('Neptune', 7, 5, SUN_RADIUS + 250, BLUE, False)}
-]
+    # Create planet objects
+    solar_system = [
+        {'object_name': solar_system_object_name('Mercury', GRAY), 'object_properties': solar_system_object('Mercury', 4, 48, SUN_RADIUS + 18, GRAY, False)},
+        {'object_name': solar_system_object_name('Venus', ORANGE), 'object_properties': solar_system_object('Venus', 5, 35, SUN_RADIUS + 34, ORANGE, False)},
+        {'object_name': solar_system_object_name('Earth', GREEN), 'object_properties': solar_system_object('Earth', 6, 30, SUN_RADIUS + 46, GREEN, False)},
+        {'object_name': solar_system_object_name('Mars', RED), 'object_properties': solar_system_object('Mars', 4, 24, SUN_RADIUS + 72, RED, False)},
+        {'object_name': solar_system_object_name('Jupiter', BROWN), 'object_properties': solar_system_object('Jupiter', 10, 13, SUN_RADIUS + 100, BROWN, False)},
+        {'object_name': solar_system_object_name('Saturn', TAN), 'object_properties': solar_system_object('Saturn', 8, 10, SUN_RADIUS + 150, TAN, True)},
+        {'object_name': solar_system_object_name('Uranus', LIGHT_BLUE), 'object_properties': solar_system_object('Uranus', 7, 7, SUN_RADIUS + 200, LIGHT_BLUE, True, True)},
+        {'object_name': solar_system_object_name('Neptune', BLUE), 'object_properties': solar_system_object('Neptune', 7, 5, SUN_RADIUS + 250, BLUE, False)}
+    ]
 
-while running:    
-    msElapsed = CLOCK.tick(60)
+    while running:    
+        msElapsed = CLOCK.tick(60)
 
-    # Watch for keyboard and mouse events.
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
+        # Watch for keyboard and mouse events.
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            
+        # Draw Background
+        SCREEN.blit(BACKGROUND_IMG, (0,0))
+        
 
-    SCREEN.fill(BLACK)
+        # Draw the Sun
+        #pygame.draw.circle(SCREEN, YELLOW, CENTER_SCREEN, SUN_RADIUS)
+        sun = pygame.transform.scale(SUN_IMG, (SUN_RADIUS, SUN_RADIUS))
+        sun_rect = sun.get_rect()
+        sun_rect.center = CENTER_SCREEN
+        SCREEN.blit(sun, sun_rect)
+        
+        # Display Sun name
+        SCREEN.blit(FONT.render('Sun', False, YELLOW), (WIDTH - 100, FONT_PADDING))
 
-    # Draw the Sun
-    pygame.draw.circle(SCREEN, YELLOW, CENTER_SCREEN, SUN_RADIUS)
-    
-    # Display Sun name
-    SCREEN.blit(FONT.render('Sun', False, YELLOW), (WIDTH - 100, FONT_PADDING))
+        # Draw the planets
+        for planet in solar_system:
+            planet['object_properties'].draw_planet(angle)
+            planet['object_name'].display_name()
 
-    # Draw the planets
-    for planet in solar_system:
-        planet['object_properties'].draw_planet(angle)
-        planet['object_name'].display_name()
+        angle += 0.05
 
-    angle += 0.05
+        pygame.display.flip()
 
-    pygame.display.flip()
+    pygame.quit()
 
-pygame.quit()
+if __name__ == '__main__':
+    main()
