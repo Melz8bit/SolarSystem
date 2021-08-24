@@ -21,8 +21,8 @@ FONT_SIZE = 24
 FONT_PADDING = 30
 FONT_NAME = "Arial"
 FONT = pygame.font.SysFont(FONT_NAME, FONT_SIZE)
-IMAGE_PATH = "D:\\Melz\\Programming\\Solar System\\Images\\"
-APP_ICON = pygame.image.load(IMAGE_PATH + '\\icon\\sun_icon.ico')
+IMAGE_PATH = os.getcwd() + '/Images'
+APP_ICON = pygame.image.load(IMAGE_PATH + '/icon/sun_icon.ico')
 
 ORBIT_LINE_THICKNESS = 1
 ORBIT_SPEED_ADJUSTMENT = 50
@@ -30,27 +30,27 @@ SUN_RADIUS = 100
 EARTH_RADIUS = 50
 
 BACKGROUND_IMG = pygame.image.load(
-    IMAGE_PATH + "\\background\\stars.jpg"
+    IMAGE_PATH + "/background/stars.jpg"
 ).convert_alpha()
 
 # Image files
-SUN_IMG = pygame.image.load(IMAGE_PATH + "\\sun\\" + "sun.png").convert_alpha()
+SUN_IMG = pygame.image.load(IMAGE_PATH + "/sun/sun.png").convert_alpha()
 MERCURY_IMG = pygame.image.load(
-    IMAGE_PATH + "\\planets\\" + "mercury.png").convert_alpha()
+    IMAGE_PATH + "/planets/" + "mercury.png").convert_alpha()
 VENUS_IMG = pygame.image.load(
-    IMAGE_PATH + "\\planets\\" + "venus.png").convert_alpha()
+    IMAGE_PATH + "/planets/" + "venus.png").convert_alpha()
 EARTH_IMG = pygame.image.load(
-    IMAGE_PATH + "\\planets\\" + "earth.png").convert_alpha()
+    IMAGE_PATH + "/planets/" + "earth.png").convert_alpha()
 MARS_IMG = pygame.image.load(
-    IMAGE_PATH + "\\planets\\" + "mars.png").convert_alpha()
+    IMAGE_PATH + "/planets/" + "mars.png").convert_alpha()
 JUPITER_IMG = pygame.image.load(
-    IMAGE_PATH + "\\planets\\" + "jupiter.png").convert_alpha()
+    IMAGE_PATH + "/planets/" + "jupiter.png").convert_alpha()
 SATURN_IMG = pygame.image.load(
-    IMAGE_PATH + "\\planets\\" + "saturn.png").convert_alpha()
+    IMAGE_PATH + "/planets/" + "saturn.png").convert_alpha()
 URANUS_IMG = pygame.image.load(
-    IMAGE_PATH + "\\planets\\" + "uranus.png").convert_alpha()
+    IMAGE_PATH + "/planets/" + "uranus.png").convert_alpha()
 NEPTUNE_IMG = pygame.image.load(
-    IMAGE_PATH + "\\planets\\" + "neptune.png").convert_alpha()
+    IMAGE_PATH + "/planets/" + "neptune.png").convert_alpha()
 
 # Colors
 YELLOW = (255, 255, 0)

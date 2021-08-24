@@ -22,15 +22,15 @@ FONT_SIZE = 24
 FONT_PADDING = 30
 FONT_NAME = 'Arial'
 FONT = pygame.font.SysFont(FONT_NAME, FONT_SIZE)
-IMAGE_PATH = 'D:\\Melz\\Programming\\Solar System\\Images\\'
+IMAGE_PATH = os.getcwd() + '/Images'
 
 ORBIT_LINE_THICKNESS = 1
 ORBIT_SPEED_ADJUSTMENT = 50
 SUN_RADIUS = 50
 
 BACKGROUND_IMG = pygame.image.load(
-    IMAGE_PATH + '\\background\\stars.jpg').convert_alpha()
-SUN_IMG = pygame.image.load(IMAGE_PATH + '\\sun\\sun.png').convert_alpha()
+    IMAGE_PATH + '/background/stars.jpg').convert_alpha()
+SUN_IMG = pygame.image.load(IMAGE_PATH + '/sun/sun.png').convert_alpha()
 
 # Colors
 YELLOW = (255, 255, 0)
