@@ -21,7 +21,7 @@ FONT_SIZE = 24
 FONT_PADDING = 30
 FONT_NAME = "Arial"
 FONT = pygame.font.SysFont(FONT_NAME, FONT_SIZE)
-IMAGE_PATH = os.getcwd() + '/Images'
+IMAGE_PATH = os.path.dirname(os.path.realpath(__file__)) + '/Images'
 APP_ICON = pygame.image.load(IMAGE_PATH + '/icon/sun_icon.ico')
 
 ORBIT_LINE_THICKNESS = 1
